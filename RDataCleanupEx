@@ -1,0 +1,37 @@
+library(scales)
+library(formattable)
+#Set work directory and load the csv file.
+setwd('Add your directory')
+college_data <- read.csv('FieldofStudyData.csv')
+
+#Now I want to create a separate dataframe from college_data that contains only the specific fields I plan to use in my analysis.
+college_df <- data.frame(cohort = college_data$COHORT, institution = college_data$INSTNM, control = college_data$CONTROL, field = college_data$CIPDESC,
+                         credlev = college_data$CREDLEV, creddesc = college_data$CREDDESC, med_monthly_loanrpay = college_data$DEBT_ALL_STGP_ANY_MDN10YRPAY,
+                         mean_loan_debt = college_data$DEBT_ALL_STGP_ANY_MEAN, mean_male_debt = college_data$DEBT_MALE_STGP_ANY_MEAN,
+                         mean_nmale_debt = college_data$DEBT_NOTMALE_STGP_ANY_MEAN, count_nw_1yr = college_data$EARN_COUNT_NWNE_HI_1YR,
+                         count_w_1yr = college_data$EARN_COUNT_WNE_HI_1YR, mdn_earn_1yr = college_data$EARN_MDN_HI_1YR,
+                         count_nw_2yr = college_data$EARN_COUNT_NWNE_HI_2YR, count_w_2yr = college_data$EARN_COUNT_WNE_HI_2YR,
+                         mdn_earn_2yr = college_data$EARN_MDN_HI_2YR, loan_default_2yr = college_data$BBRR2_FED_COMP_DFLT,
+                         loan_progress_2yr = college_data$BBRR2_FED_COMP_MAKEPROG)
+
+sapply(college_df, mode)
+
+#By looking at the type of each column, most of all my fields are "character" type, when I need some to be "numeric" type.
+#I can do the following.
+
+
+college_df <- transform(college_df, med_monthly_loanrpay = as.numeric(med_monthly_loanrpay),
+                        mean_loan_debt = as.numeric(mean_loan_debt),
+                        mean_male_debt = as.numeric(mean_male_debt),
+                        mean_nmale_debt = as.numeric(mean_nmale_debt),
+                        count_nw_1yr = as.numeric(count_nw_1yr),
+                        count_w_1yr = as.numeric(count_w_1yr),
+                        mdn_earn_1yr = as.numeric(mdn_earn_1yr),
+                        count_nw_2yr = as.numeric(count_nw_2yr),
+                        count_w_2yr = as.numeric(count_w_2yr),
+                        mdn_earn_2yr = as.numeric(mdn_earn_2yr),
+                        loan_default_2yr = as.numeric(loan_default_2yr),
+                        loan_progress_2yr = as.numeric(loan_progress_2yr))
+                        
+#By transforming specific columns to numeric I now have the data types I want. All 'NULL' and 
+#'PrivacySupressed' data that were in these columns have been converted to N/A
