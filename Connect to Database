@@ -1,0 +1,12 @@
+install.packages('RPostgreSQL')
+install.packages('RPostgres')
+
+library(DBI)
+db <- 'DB_EDUCATION'
+host_db <- 'dbeducation.cvqihokz5t3s.us-east-1.rds.amazonaws.com'
+db_port <- '5432'
+db_user <- 'master'
+db_password <- 'password'
+con <- dbConnect(RPostgres::Postgres(), dbname = db, host = host_db,
+               port = db_port, user = db_user, password = db_password)
+dbReadTable(con, "field_of_study")
