@@ -1,0 +1,26 @@
+source("http://www.sthda.com/upload/rquery_cormat.r")
+Computer_and_Information_Sciences <- finalInstitutionImpute$pcip11
+Engineering <- finalInstitutionImpute$pcip14
+Psychology <- finalInstitutionImpute$pcip42
+Business <- finalInstitutionImpute$pcip52
+completion_rate <- finalInstitutionImpute$c100_4
+Men_10yr_earnings <- finalInstitutionImpute$mn_earn_wne_male1_p10
+Women_10yr_earnings <- finalInstitutionImpute$mn_earn_wne_male0_p10
+median_debt <- finalInstitutionImpute$debt_mdn
+First_gen_student <- finalInstitutionImpute$par_ed_pct_1stgen
+Not_first_gen <- 1 - new_df$First_gen_student
+out_tuition <- finalInstitutionImpute$tuitionfee_out
+in_tuition <- finalInstitutionImpute$tuitionfee_in
+Tenyear_debt <- finalInstitutionImpute$grad_debt_mdn10yr
+
+new_df$Computer_and_Information_Sciences <- Computer_and_Information_Sciences 
+new_df$Engineering <- Engineering 
+new_df$completion_rate <- completion_rate
+
+new_df <- data.frame(Computer_and_Information_Sciences, Engineering, Psychology, Business, 
+                     completion_rate, Men_10yr_earnings, Women_10yr_earnings, median_debt, First_gen_student, Not_first_gen,
+                     out_tuition, in_tuition, Tenyear_debt)
+new_df <- na.omit(new_df)
+newcor <- cor(new_df, method = c("pearson"))
+round(newcor, 2)
+corrplot(newcor, method = 'ellipse')
